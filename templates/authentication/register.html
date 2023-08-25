@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+<html>
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/authentication/register.css' %}">
+    <title>{% block title %} Registration {% endblock %}</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% for fm in form %}
+                {{fm.label_tag}} {{fm}} {{fm.error|striptags}} <br> <br>
+            {% endfor %}
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login_view' %}">Log in here</a></p>
+    </div>
+
+    <!-- Display form errors -->
+    {% if form.errors %}
+    <div class="error-message">
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ field.label }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+</body>
+{% endblock %}
+</html>
